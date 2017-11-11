@@ -1,1 +1,1 @@
-# .dotfiles
+# Computer layout configurations and environment
