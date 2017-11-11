@@ -9,8 +9,8 @@
 *color1:  #b2161c
 *color9:  #5e0101
 ! 2: green
-*color2:  #a3b261
-*color10: #505538
+*color2:  #d5b32c
+*color10: #f38b54
 ! 3: yellow
 *color3:  #d5b32c
 *color11: #f38b54
@@ -34,7 +34,7 @@
 *scrollBar: false
 *transparent: true
 *shading: 80
-*blurRadius: 5
+*blurRadius: 7
 *tinColor: #242422
 
 ! Copy/Paste
