@@ -1,2 +1,2 @@
-ln -svf /home/cajacobs/.dotfiles/configMain/bspwmrc /home/cajacobs/.config/bspwm/bspwmrc
-ln -svf /home/cajacobs/.dotfiles/configMain/.Xresources /home/cajacobs/.Xresources
+ln -svf /home/cajacobs/.dotfiles/main/bspwmrc /home/cajacobs/.config/bspwm/bspwmrc
+ln -svf /home/cajacobs/.dotfiles/main/.Xresources /home/cajacobs/.Xresources
