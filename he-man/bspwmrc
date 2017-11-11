@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-~/.config/lemonbar/bar1.sh | lemonbar -B "242422" -f "Font Awesome" -f "LiberationMono-Regular" &
+~/.dotfiles/he-man/lemonbar.sh | lemonbar -B "#242422" -f "Font Awesome" -f "LiberationMono-Regular" &
 feh --bg-fill ~/.dotfiles/he-man/he-man.jpg
 
 wmname LG3D
@@ -12,8 +12,8 @@ urxvt -e htop &
 bspc monitor -d I II III IV V
 
 bspc config border_width         1
-bspc config focused_border_color "b2161c"
-bspc config normal_border_color "0e5a7c"
+bspc config focused_border_color "#b2161c"
+bspc config normal_border_color "#0e5a7c"
 bspc config window_gap          20
 
 bspc config focus_follows_pointer true

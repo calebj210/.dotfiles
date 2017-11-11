@@ -1,0 +1,43 @@
+# Aliases
+alias matlab='sudo matlab'
+alias huskyprint='zsh /opt/MTU/printing/papercut/pc-client-linux.sh'
+alias neofetch='neofetch --block_range 0 15'
+alias fm='thunar'
+alias image='mirage'
+alias pdf='masterpdfeditor4'
+# The following lines were added by compinstall
+
+zstyle ':completion:*' auto-description 'specify %d'
+zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+zstyle ':completion:*' completions 1
+zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' format 'Type %d'
+zstyle ':completion:*' glob 1
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' ignore-parents parent pwd .. directory
+zstyle ':completion:*' insert-unambiguous false
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' max-errors 5
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' original true
+zstyle ':completion:*' preserve-prefix '//[^/]##/'
+zstyle ':completion:*' prompt 'Errors: %e'
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' substitute 1
+zstyle ':completion:*' use-compctl true
+zstyle ':completion:*' verbose true
+zstyle :compinstall filename '/home/cajacobs/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+# End of lines configured by zsh-newuser-install
+
+PROMPT="%F{4}%B>%f%F{2}>%b%f "
+RPROMPT="%*"

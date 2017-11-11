@@ -1,5 +1,5 @@
-*background: #000000
-*foreground: #242422
+*background: #2b2b2b
+*foreground: #e5e5e5
 
 ! Default
 ! 0: black
@@ -12,8 +12,8 @@
 *color2:  #a3b261
 *color10: #505538
 ! 3: yellow
-*color3:  #d4b322
-*color11: #ec8e5e
+*color3:  #d5b32c
+*color11: #f38b54
 ! 4: blue
 *color4:  #567688
 *color12: #0e5a7c
@@ -34,7 +34,7 @@
 *scrollBar: false
 *transparent: true
 *shading: 80
-*blurRadius: 10
+*blurRadius: 5
 *tinColor: #242422
 
 ! Copy/Paste

@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-~/.config/lemonbar/bar1.sh | lemonbar -B "#2b2b2b" -f "Font Awesome" -f "LiberationMono-Regular" &
+~/.dotfiles/main/lemonbar.sh | lemonbar -B "#2b2b2b" -f "Font Awesome" -f "LiberationMono-Regular" &
 feh --bg-fill ~/.dotfiles/main/moon_earth.jpg
 
 wmname LG3D
