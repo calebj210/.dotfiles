@@ -7,7 +7,7 @@ wmname LG3D
 sxhkd &
 urxvt -e neofetch &
 urxvt -e screen &
-urxvt -e pipes &
+urxvt -e cmatrix -aC cyan &
 urxvt -e htop &
 bspc monitor -d I II III IV V
 
@@ -23,6 +23,6 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 bspc rule -a Chromium desktop='^2'
-bspc rule -a MATLAB desktop='^3'
-
+bspc rule -a Matlab desktop='^3'
+bspc rule -a Mathematica desktop='^3'
 
