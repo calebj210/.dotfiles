@@ -28,7 +28,11 @@
 *color15: 474747
 
 ! Font
-*font: xft:LiberationMono-Regular:size=10
+!URxvt.font: xft:LiberationMono-Regular:size=10, xft:Noto Sans Mono:size=10, xft:Noto Emoji:pixelsize=14
+URxvt.font: xft:Noto Mono:size=10,\
+xft:Noto Sans Math:size=10,\
+xft:Noto Color Emoji
+URxvt.letterspace: 1
 
 ! Windows and Border
 *scrollBar: false

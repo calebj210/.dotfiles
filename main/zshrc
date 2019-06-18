@@ -1,10 +1,11 @@
 # Aliases
-alias matlab='sudo matlab'
+alias matlab='sudo env MATLAB_JAVA=/usr/lib/jvm/java-8-openjdk/jre matlab'
 alias huskyprint='zsh /opt/MTU/printing/papercut/pc-client-linux.sh'
 alias neofetch='neofetch --block_range 0 15'
 alias fm='thunar'
 alias image='mirage'
 alias pdf='masterpdfeditor4'
+alias reMarkable='wine .wine/drive_c/Program\ Files\ \(x86\)/reMarkable/reMarkable.exe'
 # The following lines were added by compinstall
 
 zstyle ':completion:*' auto-description 'specify %d'

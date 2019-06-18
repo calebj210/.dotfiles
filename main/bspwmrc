@@ -5,9 +5,9 @@ feh --bg-fill ~/.dotfiles/main/moon_earth.jpg
 
 wmname LG3D
 sxhkd &
-urxvt -e neofetch &
 urxvt -e screen &
-urxvt -e cmatrix -aC cyan &
+urxvt -e bonsai -ilt 0.25 &
+urxvt -e cava &
 urxvt -e htop &
 bspc monitor -d I II III IV V
 
@@ -25,4 +25,4 @@ bspc config gapless_monocle      true
 bspc rule -a Chromium desktop='^2'
 bspc rule -a Matlab desktop='^3'
 bspc rule -a Mathematica desktop='^3'
-
+bspc rule -a Emacs state=tiled
