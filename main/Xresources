@@ -25,7 +25,7 @@
 *color14: #79cdcd
 ! 7: white
 *color7:  #858585
-*color15: 474747
+*color15: #474747
 
 ! Font
 !URxvt.font: xft:LiberationMono-Regular:size=10, xft:Noto Sans Mono:size=10, xft:Noto Emoji:pixelsize=14
@@ -42,6 +42,8 @@ URxvt.letterspace: 1
 *tinColor: #2b2b2b
 
 ! Copy/Paste
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-URxvt.iso14755: False
-URxvt.perl-ext-common: default,clipboard
+! URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+! URxvt.iso14755: False
+! URxvt.perl-ext-common: default,clipboard
+URxvt.perl-ext:
+URxvt.perl-ext-common:
