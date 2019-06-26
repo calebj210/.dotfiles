@@ -1,0 +1,105 @@
+ping google.com
+clear
+clear
+ping google.com
+clear
+sudo pacman -Syu
+cd /boot
+ls
+cd ~
+ls
+cd ..
+ls
+cd ..
+ls
+cd .emacs.d/
+ls
+julia
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+ls
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia ?global
+julia
+clear
+clc
+clear
+julia .\#First_file.jl
+ls
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+clear
+clear
+ls
+help
+ear
+clear
+help
+clear
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia First_file.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+clear
+clear
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+clear
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+clear
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+ls
+cd ~
+ls
+cd Documents/Julia/
+ls
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+cd Documents/Julia/
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+julia
+clear
+julia Level_Set_09_04_2019.jl 
+julia Level_Set_09_04_2019.jl 
+clear

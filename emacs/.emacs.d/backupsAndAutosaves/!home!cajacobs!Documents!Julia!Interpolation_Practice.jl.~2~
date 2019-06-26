@@ -1,0 +1,61 @@
+### Polynomial Interpolation ###
+## Given data set of N nodes, fit an N-1 degree polynomial to the data
+# Used packages
+using LinearAlgebra
+using Plots
+gr()
+using BenchmarkTools
+
+# Constructor for interpolation matrix
+function makeA(nodes)
+    N = size(nodes, 2);
+    x = nodes[1,:];
+    b = nodes[2,:];
+
+    # Compute interpolation matrix entries
+    A = zeros(N,N);
+    for i ∈ 1:N, j ∈ 1:N
+        A[i,j] = x[i]^(j-1);
+    end
+
+    return A,b
+end
+
+# Weights solver
+function findWeights(nodes)
+    # Create A and b from nodes
+    A,b  = makeA(nodes);
+
+    # Solve for weights
+    w = A\b;
+
+    return w
+end
+
+# Interpolant
+function S(t, w)
+    n = size(t,1);
+    N = size(w,1);
+    
+    S = zeros(n);
+    for i ∈ 1:n, j ∈ 0:N-1
+        S[i] += t[i]^j;
+    end
+
+    return S
+end
+
+# Test function
+function interpolate()
+    nodes = [0 1 2 3 4 5;
+             0 1 4 9 16 25];
+    t = range(minimum(nodes[1,:]), maximum(nodes[1,:]), length = 100);
+
+    w = findWeights(nodes);
+    s = S(t,w);
+
+    scatter(nodes[1,:],nodes[2,:])
+    plot!(t,s)
+end
+
+interpolate()

@@ -1,0 +1,39 @@
+* Complex Integration
+** Consequences of Cauchy's Integral Theorem
+*** Theorem
+    If f(z) is once differntiable in some region, then it can be
+    differentiable any number of times: i.e. it's analytic.
+*** Proof
+    \begin{align*}
+	\because f(z) &= \frac{1}{2 \pi i}\oint\limits_{\Gamma} \frac{f(\xi)}{\xi-z}d\xi \\ 
+	f^{\left(k\right)}(z) &= \frac{k!}{2\pi i}\oint\limits_{\Gamma} \frac{f(\xi)}{\left(\xi-z\right)^{k+1}}d\xi
+    \end{align*}
+** Liouville's Theorem
+*** Theorem 
+    If f(z) is entire (no singularities for finite z) and if
+    f(z) is bounded (\[\left| f(z) \right| \leq \widetilde{M}\]) then it
+    must be a constant, \[ f(z) \equiv C \]
+*** Proof
+    By cauchy's Integra Formula, 
+\begin{equation*}
+	f'(z) = \frac{1}{2\pi i}\oint\limits_{\Gamma}\frac{f(\xi)}{(\xi-z)^2}d\xi
+\end{equation*}
+
+Then:
+ 
+\begin{align*}
+	\left| f'(z) \right| 
+	&= \left| \frac{1}{2\pi
+	i}\oint\limits_{\Gamma}\frac{f(\xi}{(\xi-z)^2}d\xi\right| \\
+	&=
+	\frac{1}{2\pi}\left|\oint\limits_{\Gamma}\frac{f(\xi}{(\xi-z)^2}d\xi\right|
+	\leq \frac{1}{2\pi}M \cdot L = 
+	\frac{1}{\cancel{2\pi}}\frac{\widetilde{M}}{R^{\cancel{2}}}\cancel{2\pi R} =
+	\frac{\widetilde{M}}{R} \to 0 \text{ as } R\to\infty
+\end{align*}
+Where \[\Gamma\] is a circle of radius R centered at z. From this it
+	follows that \[L = 2\pi R\] and \[M = \frac{|f(z)|}{R^2}\leq
+	\frac{\widetilde{M}}{R^2}\]
+\begin{equation*}
+	\therefore f'(z) = 0 \to f(z) = C
+\end{equation*}

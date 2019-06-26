@@ -1,0 +1,71 @@
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(custom-enabled-themes (quote (wombat)))
+ '(custom-safe-themes
+   (quote
+    ("85c7b875c569e264109df4b9aac0ad38aba0b277b74d7235ae168ed6dc4001d8" default)))
+ '(inhibit-startup-screen t)
+ '(org-indent-indentation-per-level 1)
+ '(org-indent-mode-turns-off-org-adapt-indentation t)
+ '(org-indent-mode-turns-on-hiding-stars nil)
+ '(org-latex-packages-alist (quote (("" "cancel" t))))
+ '(package-selected-packages (quote (org auctex))))
+
+ 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-level-1 ((t (:inherit outline-1 :foreground "#9ed84b" :weight bold))))
+ '(org-level-2 ((t (:inherit outline-2 :foreground "#4bc3d8" :weight bold))))
+ '(org-level-3 ((t (:inherit outline-3 :foreground "#cae682" :weight semi-bold))))
+ '(org-level-4 ((t (:inherit outline-4 :foreground "#8ac6f2" :weight semi-bold)))))
+
+;; Change backup directory
+(setq backup-directory-alist
+      `((".*" . ,"~/.emacs.d/backupsAndAutosaves/")))
+(setq auto-save-file-name-transforms
+      `((".*"  ,"~/.emacs.d/backupsAndAutosaves/" t)))
+(setq backup-by-copying t)
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+
+;; Include org in the install files
+(require 'package)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
+;; TeX Settings
+(add-to-list 'load-path "~/.emacs.d/cdlatex-master/")
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+(setq org-startup-with-latex-preview t)
+
+;; Text Wrapping Config
+(setq-default auto-fill-function 'do-auto-fill)
+(setq-default fill-column 72)
+
+;; Julia Major-Mode
+(add-to-list 'load-path "~/.emacs.d/julia-emacs-master/")
+(require 'julia-mode)
+(require 'julia-repl)
+(add-hook 'julia-mode-hook 'julia-repl-mode)
+
+;; Magit
+(global-set-key (kbd "C-x g") 'magit-status)

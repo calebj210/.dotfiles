@@ -1,0 +1,41 @@
+n#+STARTUP: latexpreview
+
+* org-mode structure
+Text here is under the first head
+
+** A subheading
+More text here
+
+** lists
+*** Bullets
+- entry 1
+  - enrty 2
+  - entry 3
+    - sub entry 1
+    - sub entry 2
+  - Entry 4
+  - for really long texts i can hope that it will wrap around and lkaf;sjd alk;sdjf klasjdf lkasjdf ;kasjdfkljasdf;ljasdlkfjasdfklja sdkfjenasdkfjeni
+    
+** Numbered Lists
+1) First item in list
+2) Second item in list
+   1) First sub item
+   2) second sub item
+3) Third item in list
+
+*** Checklist
+    - [ ] first
+    - [ ] 
+
+* First
+** Second
+*** Third
+* Latex
+\begin{align*}
+	f(z) &= \int\limits_\Gamma \frac{f(\xi)}{\xi-z}d\x \\
+	&= \int\limits_\Gamma \frac{f(\xi)}{\xi-z}d\x + 
+	\int\limits_\Gamma \frac{f(\xi)}{\xi-z}d\x \\
+\end{align*}
+
+1) quadratic equation \[ \frac{-b \pm \sqrt{-b^2-4ac}}{2a} \]
+

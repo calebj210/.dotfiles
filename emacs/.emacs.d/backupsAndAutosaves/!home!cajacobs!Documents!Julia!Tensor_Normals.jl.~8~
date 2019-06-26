@@ -1,0 +1,266 @@
+### Finding normals using RBFs and tensors
+
+## Including used packages
+using LinearAlgebra
+using SparseArrays
+using NearestNeighbors
+using Plots
+using BenchmarkTools
+gr()
+
+
+## Function definitions
+# Circle
+circX(t) = cos.(t);
+circY(t) = sin.(t);
+
+# True circle normals
+circNormsX(t) = cos.(t);
+circNormsY(t) = sin.(t);
+
+# Pi curve
+piX(t) = ((17/31)*sin.((235/57)+(-32)*t)+(19/17)*sin.((192/55)+(-30)*t)+(47/32)*sin.((69/25)+(-29)*t)+(35/26)*sin.((75/34)+(-27)*t)+(6/31)*sin.((23/10)+(-26)*t)+(35/43)*sin.((10/33)+(-25)*t)+(126/43)*sin.((421/158)+(-24)*t)+(143/57)*sin.((35/22)+(-22)*t)+(106/27)*sin.((84/29)+(-21)*t)+(88/25)*sin.((23/27)+(-20)*t)+(74/27)*sin.((53/22)+(-19)*t)+(44/53)*sin.((117/25)+(-18)*t)+(126/25)*sin.((88/49)+(-17)*t)+(79/11)*sin.((43/26)+(-16)*t)+(43/12)*sin.((41/17)+(-15)*t)+(47/27)*sin.((244/81)+(-14)*t)+(8/5)*sin.((79/19)+(-13)*t)+(373/46)*sin.((109/38)+(-12)*t)+(1200/31)*sin.((133/74)+(-11)*t)+(67/24)*sin.((157/61)+(-10)*t)+(583/28)*sin.((13/8)+(-8)*t)+(772/35)*sin.((59/16)+(-7)*t)+(3705/46)*sin.((117/50)+(-6)*t)+(862/13)*sin.((19/8)+(-5)*t)+(6555/34)*sin.((157/78)+(-3)*t)+(6949/13)*sin.((83/27)+(-1)*t)+(-6805/54)*sin.((1/145)+2*t)+(-5207/37)*sin.((49/74)+4*t)+(-1811/58)*sin.((55/43)+9*t)+(-63/20)*sin.((2/23)+23*t)+(-266/177)*sin.((13/18)+28*t)+(-2/21)*sin.((7/16)+31*t))/1000;
+
+piY(t) = ((70/37)*sin.((65/32)+(-32)*t)+(11/12)*sin.((98/41)+(-31)*t)+(26/29)*sin.((35/12)+(-30)*t)+(54/41)*sin.((18/7)+(-29)*t)+(177/71)*sin.((51/19)+(-27)*t)+(52/33)*sin.((133/52)+(-26)*t)+(59/34)*sin.((125/33)+(-26)*t)+(98/29)*sin.((18/11)+(-25)*t)+(302/75)*sin.((59/22)+(-24)*t)+(104/9)*sin.((118/45)+(-22)*t)+(52/33)*sin.((133/52)+(-21)*t)+(37/45)*sin.((61/14)+(-20)*t)+(143/46)*sin.((144/41)+(-19)*t)+(254/47)*sin.((19/52)+(-18)*t)+(246/35)*sin.((92/25)+(-17)*t)+(722/111)*sin.((176/67)+(-16)*t)+(136/23)*sin.((3/19)+(-15)*t)+(273/25)*sin.((32/21)+(-13)*t)+(229/33)*sin.((117/28)+(-12)*t)+(19/4)*sin.((43/11)+(-11)*t)+(135/8)*sin.((23/10)+(-10)*t)+(205/6)*sin.((33/23)+(-8)*t)+(679/45)*sin.((55/12)+(-7)*t)+(101/8)*sin.((11/12)+(-6)*t)+(2760/59)*sin.((40/11)+(-5)*t)+(1207/18)*sin.((21/23)+(-4)*t)+(8566/27)*sin.((39/28)+(-3)*t)+(12334/29)*sin.((47/37)+(-2)*t)+(15410/39)*sin.((185/41)+(-1)*t)+(-596/17)*sin.((3/26)+9*t)+(-247/28)*sin.((25/21)+14*t)+(-458/131)*sin.((21/37)+23*t)+(-41/36)*sin.((7/8)+28*t))/1000;
+
+
+## Generate node set given x and y coordinate sets
+function dist(x, y)
+    [x'; y']
+end
+
+## Functions for generating approximate normals using a sorted node1
+## distribution
+# Master function for finding normals
+function normals(nodes)
+    # Number of nodes
+    N = size(nodes,2);
+    nmls = zeros(2,N);
+    
+    # First Node
+    tmp = nodes[:,2] - nodes[:,N];
+    tmp = rot90(tmp);
+    nmls[:,1] = tmp;
+
+    # Middle Nodes
+    for i ∈ 2:N-1
+        tmp = nodes[:,i+1] - nodes[:, i-1];
+        tmp = rot90(tmp);
+        nmls[:,i] = tmp;
+    end
+
+    # Last Node
+    tmp = nodes[:,1] - nodes[:,N-1];
+    tmp = rot90(tmp);
+    nmls[:,N] = tmp;
+
+    return nmls
+end
+
+# Function that rotates vectors -π/2
+function rot90(vec)
+    tmp = zeros(2);
+    tmp[1] = vec[2];
+    tmp[2] = -vec[1];
+    
+    return tmp
+end
+
+## Find indices for k nearest neighbors
+function knnFull(nodes, n)
+    kdtree = KDTree(nodes);
+    idx, tmp = knn(kdtree, nodes, n, true);
+    
+    return idx
+end
+
+## Functions for setting up RBF envrionment
+# Center main node
+function center(nodes)
+    nodes = nodes .- nodes[:,1];
+
+    return nodes
+end
+
+# Finds angle between center vector and ĵ
+sgn(x) = x >= 0 ? 1 : -1;
+function findAngle(node)
+    b = node[2]/norm(node);
+    θ = sgn(node[1])acos(b);
+    
+    return θ
+end
+
+# Rotate nodes about origin
+function rotate(nodes, θ)
+    # Compute rotation matrix
+    rotor = [cos(θ) -sin(θ);
+             sin(θ) cos(θ)];
+    # Rotate all vectors
+    nodes = rotor*nodes;
+    
+    return nodes
+end
+
+
+## RBF related functions
+
+# RBF definitons
+# 1D
+# Gaussian
+# ϕ(x1,x2,m) = exp(-m*abs2(x1-x2));
+
+# PHS
+ϕ(x1,x2,m) = abs(x1-x2)^m
+
+# 2D
+# Gaussian 2D
+ϕ(x1,y1,x2,y2,m) = ℯ^(-m*((x1-x2)^2+(y1-y2)^2));
+ϕ_x(x1,y1,x2,y2,m) = 2*ℯ^(-m*((x1-x2)^2+(y1-y2)^2))*m*(x2-x1);
+ϕ_y(x1,y1,x2,y2,m) = 2*ℯ^(-m*((x1-x2)^2+(y1-y2)^2))*m*(y2-y1);
+
+
+# Interpolation weights for 1D without helping terms
+function interpolate(nodes, m)
+    n = size(nodes, 2);
+    A = zeros(n,n);
+    x = nodes[1,:];
+    f = nodes[2,:];
+    display(m)
+    # Define A without helping terms
+    for i ∈ 1:n, j ∈ 1:n
+        A[i,j] = ϕ(x[i], x[j], m);
+    end
+
+    # Solve for weights
+    λ = A\f;
+
+    return λ
+end
+
+# Interpolation function
+function S(t, x, λ, m)
+    n = size(x,1);
+    nt = size(t,1);
+    
+    s = zeros(nt);
+    for i ∈ 1:n, j ∈ 1:nt
+        s[j] += λ[i]*ϕ(t[j], x[i], m);
+    end
+    
+    return s
+end 
+
+## Plot functions
+# Plot of nodes and vectors
+function vectorPlot(points, direction)
+    N = size(points, 2);
+    vecs = points + 0.5*direction;
+    a = scatter(points[1,:],points[2,:],
+                aspectratio = :equal,
+                legend = false,
+                show = false,
+                markersize = 2,
+                markerstrokealpha = 0,
+                markeralpha = .9);
+    for i ∈ 1:N
+        plot!([points[1,i], vecs[1,i]],
+              [points[2,i], vecs[2,i]],
+              color = :red,
+              legend = false,
+              show = false,
+              lw = 1)
+    end
+    return a
+end
+
+# Nodes plot
+function nodePlot(set1)
+    a = scatter(set1[1,:],set1[2,:],
+                color = :blue,
+                show = false,
+                legend = false,
+                aspectratio = :equal,
+                markersize = 1,
+                markerstrokealpha = 0)
+    return a
+end
+
+# RBF interpolation plot
+function interPlot(nodes, λ, m)
+    x = nodes[1,:];
+    y = nodes[2,:];
+    t = range(minimum(x), maximum(x), length = 1000);
+    s = S(t, x, λ, m);
+    
+    a = scatter(x,y,
+                color = :blue,
+                aspectratio = :equal,
+                show = false,
+                legend = false,
+                markersize = 1,
+                markerstrokealpha = 0)
+    plot!(t,s,lw=1.5)
+
+    return a
+end
+
+## Main function for finding normals
+function comp(N=100, n=10, m1=.1, m2=0.5)
+    # Parameterizing our curve
+    t = range(0,2*π-2*π/N, length = N);
+    
+    # Compute true normals
+    truNorms = [circNormsX(t)'; circNormsY(t)'];
+    
+    # Generate nodes
+    nodes = dist(piX.(t), piY.(t))
+    
+    # Compute approximate normals
+    nmls = normals(nodes);
+
+    # Find nearest neighbors
+    idx = knnFull(nodes, n);
+
+    # Find angle rotation
+    cent = zeros(2,n);
+    rot = cent;
+    λ = zeros(n);
+    for i ∈ N
+        θ = findAngle(nmls[:,i]);
+        cent = center(nodes[:,idx[i]]);
+        rot = rotate(cent, θ);
+
+        # Compute RBF weights
+        λ = interpolate(rot, m1);
+
+        # Plot results
+        l = @layout [a b c; d e]
+        a = plot(nodePlot(nodes),
+                 title = "Initial Node Set",
+                 xlims = (-1.1,1.1),
+                 ylims = (-1.1,1.1))
+        b = plot(nodePlot(nodes[:,idx[i]]),
+                 title = "Nearest Neighbors",
+                 xlims = (-1.1,1.1),
+                 ylims = (-1.1,1.1))
+        c = plot(nodePlot(cent),
+                 title = "Centered",
+                 xlims = (-.25,.25),
+                 ylims = (-.25,.25))
+        d = plot(nodePlot(rot), title = "Rotated",
+                 xlims = (-.25,.25),
+                 ylims = (-.25,.25))
+        e = plot(interPlot(rot, λ, m1), title = "Interpolated")
+
+        a = plot(a,b,c,d,e,
+                 layout = l)
+        
+        display(a)
+        sleep(.01)
+    end
+
+    # display(vectorPlot(nodes,nmls))
+end
+
+comp(200, 4, 6)

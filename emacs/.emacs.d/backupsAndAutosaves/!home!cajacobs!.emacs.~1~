@@ -1,0 +1,53 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(custom-enabled-themes (quote (wombat)))
+ '(custom-safe-themes
+   (quote
+    ("85c7b875c569e264109df4b9aac0ad38aba0b277b74d7235ae168ed6dc4001d8" default)))
+ '(inhibit-startup-screen t)
+ '(initial-buffer-choice t)
+ '(initial-scratch-message ";; Scratch pad for all of your
+;; wildest needs
+
+"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; Change backup directory
+(setq backup-directory-alist
+      `((".*" . ,"~/.emacs.d/backupsAndAutosaves/")))
+(setq auto-save-file-name-transforms
+      `((".*"  ,"~/.emacs.d/backupsAndAutosaves/" t)))
+(setq backup-by-copying t)
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+
+;; Include org in the install files
+(require 'package)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
+;; TeX Settings
+(add-to-list 'load-path "~/.emacs.d/cdlatex-master/")
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+
+;; Text Wrapping Config
+(setq-default auto-fill-function 'do-auto-fill)
+(setq-default fill-column 72)

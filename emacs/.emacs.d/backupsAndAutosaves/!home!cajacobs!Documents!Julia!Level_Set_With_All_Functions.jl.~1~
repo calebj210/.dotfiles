@@ -1,0 +1,132 @@
+### Level set code for finding normals of a curve ###
+
+# Including used packages
+using LinearAlgebra
+using SparseArrays
+using NearestNeighbors
+using Plots
+gr()
+
+init = time();
+
+## Preliminary Setting
+# Number of nodes on curve
+N = 1000;
+
+## Defining our curve and true normals
+# Time Coordinate
+t = range(0,2*π-2*π/N, length = N);
+
+# Circle
+circX(t) = cos.(t);
+circY(t) = sin.(t);
+
+# True Circle Normals
+circNormsX(t) = cos.(t);
+circNormsY(t) = sin.(t);
+truNorms = [circNormsX(t)'; circNormsY(t)'];
+
+# Plot of Nodes and Vectors
+function vectorPlot(points, direction)
+    N = size(points, 2);
+    vecs = points + 0.1 * direction;
+    a = scatter(points[1,:],points[2,:],
+            aspectratio = :equal,
+            legend = false,
+            show = false,
+            markerstrokealpha = 0,
+                markeralpha = .9);
+    for i ∈ 1:N
+        plot!([points[1,i], vecs[1,i]],
+          [points[2,i], vecs[2,i]],
+          color = :red,
+          legend = false,
+          show = false)
+    end
+    return a
+end
+
+
+## Nodes
+function dist(x, y)
+    [x'; y']
+end
+nodes = dist(circX(t), circY(t));
+
+
+## Outside Nodes
+# Function that rotates vectors -π/2
+function rot90(vec)
+    tmp = zeros(2);
+    tmp[1] = vec[2];
+    tmp[2] = -vec[1];
+    return tmp
+end
+
+# Function for generating outer nodes from node distribution
+function outerDist(nodes)
+    N = size(nodes,2);
+    oNodes = zeros(2,N);
+
+    # First Node
+    tmp = nodes[:,2] - nodes[:,N];
+    tmp = rot90(tmp);
+    oNodes[:,1] = nodes[:,1] + tmp;
+
+    # Middle Nodes
+    for i ∈ 2:N-1
+        tmp = nodes[:,i+1] - nodes[:, i-1];
+        tmp = rot90(tmp);
+        oNodes[:,i] = nodes[:,i] + tmp;
+    end
+
+    # Last Node
+    tmp = nodes[:,1] - nodes[:,N-1];
+    tmp = rot90(tmp);
+    oNodes[:,N] = nodes[:,N] + tmp;
+
+    return oNodes
+end
+oNodes = outerDist(nodes);
+
+
+## Nodes Plot
+function nodePlot(set1, set2)
+    a = scatter(set1[1,:],set1[2,:],
+                color = :blue,
+                aspectratio = :equal,
+                show = false,
+                legend = false,
+                markerstrokealpha = 0,
+                markeralpha = 0.5,
+                markersize = 2)
+    scatter!(set2[1,:], set2[2,:],
+             color = :green,
+             show = false,
+             legend = false,
+             markerstrokealpha = 0,
+             markeralpha = 0.3,
+             markersize = 2)
+    return a
+end
+
+init = time() - init;
+println(init)
+
+
+## RBF Discretization
+# RBF's Settings
+NN = 2N;
+n = 10;  # Number of Neighbors
+m = 0.5; # Shape Parameter
+
+# RBF Definitions
+# Gaussian
+phi(x1,x2,y1,y2,m) = ℯ^(-m*((x1-x2).^2+(y1-y2).^2));
+phi_x(x1,x2,y1,y2,m) = 2*ℯ^(-m*((x1-x2).^2+(y1-y2).^2))*m*(x2-x1);
+phi_y(x1,x2,y1,y2,m) = 2*ℯ^(-m*((x1-x2).^2+(y1-y2).^2))*m*(y2-y1);
+
+# Establish Nearest Neighbors
+# kd
+
+display(nodePlot(nodes,oNodes))

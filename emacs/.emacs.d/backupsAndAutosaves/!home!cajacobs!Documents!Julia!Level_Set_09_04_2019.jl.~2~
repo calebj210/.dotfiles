@@ -1,0 +1,37 @@
+### Level set code for finding normals of a curve ###
+
+# Including used packages
+using LinearAlgebra
+using SparseArrays
+#using Plots
+#gr(show = true)
+using PyPlot
+pygui(true)
+
+## Preliminary Setting
+# Number of nodes on curve
+N = 100;
+
+## Defining our curve and true normals
+# Time Coordinate
+t = range(0,2*π, length = N);
+
+# Circle
+function circX(t)
+    cos(t)
+end
+function circY(t)
+    sin(t)
+end
+
+# True Circle Normals
+function circNormsX(t)
+    cos(t)
+end
+function circNormsY(t)
+    sin(t)
+end
+
+truNorms = [circNormsX.(t)'; circNormsY.(t)'];
+
+scatter(truNorms[1,:],truNorms[2,:])

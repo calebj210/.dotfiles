@@ -1,0 +1,37 @@
+### Finding Normals Using RBFs and Tensors
+
+## Including used packages
+using LinearAlgebra
+using NearestNeighbors
+using Plots
+using BenchmarkTools
+pyplot()
+
+## Function definitions
+# Unit Sphere
+sph(u,v) = [cos(u)*sin(v), sin(u)*sin(v), cos(v)];
+
+## Generate 3D Cartesian node set given u and v coordinate sets
+function dist(u,v)
+    N = size(u,1);
+    M = size(v,1);
+
+    nodes = zeros(3,N*M);
+    for i ∈ 1:N, j ∈ 1:M
+        nodes[:, (j-1)*M+i] = sph(u[i], v[j]);
+    end
+
+    return nodes
+end
+
+## End function
+function comp(N, M)
+    u = range(0, 2*π-2*π/N, length = N);
+    v = range(0+π/M, π-π/M, length = M);
+
+    nodes =  dist(u, v);
+
+    scatter(nodes[1,:], nodes[2,:], nodes[3,:])
+end
+
+comp(100,100)

@@ -1,0 +1,10 @@
+### Getting Familiar with Extended Precision Using the DoubleFloats
+### Package
+
+using DoubleFloats
+
+# Making extended precision numbers
+x = sqrt(Double64(10));
+
+showall(x)
+
