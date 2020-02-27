@@ -4,25 +4,41 @@
 feh --bg-fill ~/.dotfiles/main/moon_earth.jpg
 
 wmname LG3D
+
 sxhkd &
-urxvt -e screen &
-urxvt -e bonsai -ilt 0.25 &
-urxvt -e cava &
-urxvt -e htop &
+
 bspc monitor -d I II III IV V
 
 bspc config border_width         1
 bspc config focused_border_color "#cee318"
 bspc config normal_border_color "#9ac0cd"
-bspc config window_gap          20
+bspc config window_gap          15
+bspc config presel_feedback false
 
 bspc config focus_follows_pointer true
 
-bspc config split_ratio          0.52
+bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-bspc rule -a Chromium desktop='^2'
-bspc rule -a Matlab desktop='^3'
-bspc rule -a Mathematica desktop='^3'
+bspc rule -a Chromium desktop=II
+bspc rule -a Mathematica desktop=III
 bspc rule -a Emacs state=tiled
+
+urxvt -e spt &
+sleep 0.1
+bspc node -p east
+urxvt -e htop &
+sleep 0.1
+bspc node -p south
+urxvt -e bonsai -ilt 0.25 &
+sleep 0.1
+bspc node -f west
+sleep 0.05
+bspc node -p south
+urxvt -e screen &
+sleep 0.05
+for i in {1..100}
+do
+    bspc node -z right 1 0
+done
